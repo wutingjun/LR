@@ -22,10 +22,15 @@ def trainLogRegres(train_x, train_y, opts):
 
 	# optimize through gradient descent algorilthm
 	for k in range(maxIter):
-		if opts['optimizeType'] == 'gradDescent': # 逻辑回归中，梯度下架实现的核心代码
+		if opts['optimizeType'] == 'gradDescent': # 逻辑回归中，梯度下降的实现核心代码
 			output = sigmoid(train_x * weights)
 			error = train_y - output
 			weights = weights + alpha * train_x.transpose() * error
+		elif opts['optimizeType'] == 'stocGradDescent':	# 随机梯度下降的实现代码
+			for i in xrange(numSamples):
+				output=sigmoid(train_x[i,:] * weights)
+				error=train_y[i,0] - output
+				weights = weights + alpha * train_x[i,:].transpose() * error
 		else:
 			raise NameError('Not support optimize method type!')
 
